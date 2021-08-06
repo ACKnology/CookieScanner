@@ -62,7 +62,8 @@ try:
 
 	coringas.sort(key=len, reverse=True)
 
-except:
+except Exception as e:
+	print(">>> Catched: {0}".format(str(e)))
 	print(">>> %s - Erro ao conectar a base de cookies para efetuar a carga dos cookies variantes..."%(dt.now()))
 
 finally:
@@ -123,6 +124,7 @@ def api_id():
 	result={}
 
 	for ck in cookies:
+		print("CK:",ck)
 		analise = {}
 		xds = []
 		xcol = 0
@@ -187,4 +189,4 @@ def api_id():
 
 if __name__ == '__main__':
 	print(">>> %s - Iniciando o servidor..."%dt.now())
-	app.run(port=5000,debug=True) 
+	app.run(host='0.0.0.0',port=5000,debug=True) 
