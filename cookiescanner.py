@@ -170,7 +170,7 @@ def api_id():
 			except:
 				analise[c]=''
 
-		print("CK:",ck)
+		# print("CK:",ck)
 
 		# print("ANALISE:",analise)
 
