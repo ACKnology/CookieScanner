@@ -1,6 +1,6 @@
 # Objective: Running selenium python scripts in alpine without grid
 
-FROM python:3.8-alpine3.12
+FROM python:3.9.6-alpine3.14
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -24,11 +24,11 @@ RUN apk add glibc-2.30-r0.apk
 RUN apk add glibc-bin-2.30-r0.apk
 
 # And of course we need Firefox if we actually want to *use* GeckoDriver
-RUN apk add firefox-esr=78.11.0-r0
+RUN apk add firefox
 
 # Then install GeckoDriver
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
-RUN tar -zxf geckodriver-v0.26.0-linux64.tar.gz -C /usr/bin
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.29.0/geckodriver-v0.29.0-linux64.tar.gz
+RUN tar -zxf geckodriver-v0.29.0-linux64.tar.gz -C /usr/bin
 RUN geckodriver --version
 
 EXPOSE 5000

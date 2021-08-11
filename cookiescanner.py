@@ -161,6 +161,7 @@ def api_id():
 		for r in ds:
 			for v in r:
 				xds.append(v)
+				# print(v)
 
 		#Populando dicionário 'analise' com os dados contidos na lista 'xds'
 		for c in hdr:
@@ -169,7 +170,7 @@ def api_id():
 			except:
 				analise[c]=''
 
-		# print("CK:",ck)
+		print("CK:",ck)
 
 		# print("ANALISE:",analise)
 

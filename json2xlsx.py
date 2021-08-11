@@ -69,7 +69,7 @@ for jfile in filel:
 
 print(">> %s - Gravando o arquivo ./xlsx/%s.xlsx"%(dt.now(),xfile))
 wb.close()
-con.close()
+#con.close()
 
 
 #cell_format.set_font_color('#FF0000')
