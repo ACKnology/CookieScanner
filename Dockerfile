@@ -36,6 +36,6 @@ EXPOSE 5000
 ENV CHROME_BIN=/usr/bin/chromium-browser \
     CHROME_PATH=/usr/lib/chromium/
 
-# CMD ["python", "cookiescanner.py"]
+CMD ["python", "cookiescanner.py"]
 
 # run the image passing the .py file as parameter and that's it :)
