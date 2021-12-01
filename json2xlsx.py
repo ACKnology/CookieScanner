@@ -16,6 +16,44 @@ xfile = sys.argv[1]
 
 wb = xw.Workbook("./xlsx/{}.xlsx".format(xfile))
 
+coringas = []
+
+try:
+	con = sqlite3.connect('./db/cookies_db.db')
+	cur = con.cursor()
+
+	query = """ 
+				select
+						nome
+				from
+						all_cookies
+				where
+						coringa = 1
+				order by
+						nome
+			"""
+	ds = cur.execute(query)
+
+	for item in ds:
+
+		coringas.append(item[0])
+
+	coringas.sort(key=len, reverse=True)
+
+except Exception as e:
+	print(">>> Catched: {0}".format(str(e)))
+	print(">>> %s - Erro ao conectar a base de cookies para efetuar a carga dos cookies variantes..."%(dt.now()))
+
+finally:
+	con.close()
+
+def getCookieName(cookieStr):
+
+	for cookie in coringas:
+		if cookie in cookieStr:
+			 return(cookie)
+	return cookieStr
+
 for jfile in filel:
 
 	print(">> %s - Lendo o arquivo %s"%(dt.now(),jfile))
@@ -23,8 +61,8 @@ for jfile in filel:
 	f = open("%s"%jfile,)
 	js = json.load(f)
 
-	print(">> %s - Criando a planilha %s"%(dt.now(),jfile.split("_")[1][:-5]))
-	ws = wb.add_worksheet(jfile.split("_")[1][:-5])
+	print(">> %s - Criando a planilha %s"%(dt.now(),jfile.split("=")[1][:-5]))
+	ws = wb.add_worksheet(jfile.split("=")[1][:-5])
 
 	con = sqlite3.connect('./db/cookies_db.db')
 	cur = con.cursor()
@@ -40,9 +78,15 @@ for jfile in filel:
 
 	xrow=1
 
+	for x in js:
+		for y in js[x]:
+			print(y)
+
+	exit(0)
+
 	for ck in js:
 		xcol = 0
-		query = "select EU_IA, plataforma, categoria, dominio, retencao, controlador, politica, descricao from all_cookies where nome like \'{}%\' order by nome limit 1".format(ck['name'])
+		query = "select EU_IA, plataforma, categoria, dominio, retencao, controlador, politica, descricao from all_cookies where nome like \'{}%\' order by nome limit 1".format(getCookieName(ck['name']))
 		#print(query)
 		#pass
 		ds = cur.execute(query)

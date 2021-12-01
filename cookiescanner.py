@@ -121,7 +121,7 @@ def all_exception_handler(error):
 	# errorCode = str(error).split(" ")[0]
 	# errorMesg = str(" ".join(str(error).split(" ")[1:]))
 	errorMesg = str(error)
-	return jsonify({'status_code':555, 'message': errorMesg}), 555
+	return jsonify({'StsCode':555, 'StsMsg': errorMesg}), 555
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -137,8 +137,8 @@ Exemplo:</br><a href="http://127.0.0.1:5000/api/v1/cookies/scan?uri=https://www.
 def api_id():
 
 	cookies = ()
-	endScan = dict()
-	endScan.clear()
+	scanReport = dict()
+	scanReport.clear()
 	result = dict()
 	result.clear()
 
@@ -252,22 +252,23 @@ def api_id():
 			else:
 				result[ck['name']] = analise
 
-		endScan.clear()
+		scanReport.clear()
 
-		endScan["report"] = { "quantity": len(result), "screenshot": txt_img }
-		endScan["uri"] = uri
-		endScan["cookies"] = result
+		scanReport[uri] = {"report": { "summary": { "ScanDate": dt.now().strftime('%Y-%m-%dT%H:%M:%S.000Z'), "NumCookies":len(result)}}, "cookies":result, "screenshot": {"ImgSizeBytes": len(txt_img),"ImgBase64Data":txt_img}, "response":{"StsCode":200,"StsMsg":"OK"}}
+		# scanReport["2_report"] = { "quantity": len(result), "screenshot_size": len(txt_img)}
+		# scanReport["3_bindat"] = result
 
-		return jsonify(endScan)
+		return jsonify(scanReport)
 
 	else:
 		raise Exception("URI não informada.")
 
 
-
 if __name__ == '__main__':
-	print(f">>> {dt.now()} - Início do serviço")
-	logging.info(f"Início do serviço")
-	app.run(host='0.0.0.0', port=5000, debug=True)
+	print(f">>> {dt.now()} - Iniciando o serviço...")
+	logging.info(f"Iniciando o serviço...")
+	app.run(host='0.0.0.0', port=5000, debug=False) 
+	# from waitress import serve
+	# serve(app, host="0.0.0.0", port=5000)
 	print(f">>> {dt.now()} - Aguardando conexão...")
 
